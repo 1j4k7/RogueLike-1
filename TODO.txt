@@ -1,0 +1,9 @@
+Jason:
+ - Create class structure
+ - GameObject structure
+ - Components and developer functionality
+ - Player and obstacles
+
+Paul:
+ - Bullet
+ - Adversary with A*
