@@ -5,7 +5,7 @@ public class Run {
 
 	public static void main(String[] args) {
 		
-		Game game = new Game(8, 4);
+		Game game = new Game(40, 20);
 		game.runGame();
 	}
 }

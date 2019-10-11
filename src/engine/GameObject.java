@@ -5,19 +5,26 @@ import java.util.ArrayList;
 public abstract class GameObject {
 	
 	private ArrayList<Component> components;
+	private int x,y;
 	
-	public void update() {
+	public void graphics() {
 		for (Component component: components) {
-			component.update();
+			component.graphics();
+		}
+	}
+	
+	public void logic() {
+		for (Component component: components) {
+			component.logic();
 		}
 	}
 	
 	public void addComponent(Component component) {
-		components.add(component.ID, component);
+		components.add(component);
 	}
 	
-	public void removeComponent(int ID) {
-		components.removeIf(component -> (component.ID == ID));
+	public void removeComponent(Component component) {
+		components.remove(component);
 	}
 
 }

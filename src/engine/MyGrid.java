@@ -75,7 +75,7 @@ public class MyGrid extends JPanel {
 	
 	public void setColor(int row, int col, Color color) {
 		colors[row + MARGIN_SIZE][col + MARGIN_SIZE] = color;
-		this.repaint();
+//		this.repaint();
 	}
 	
 	public void kill() {
