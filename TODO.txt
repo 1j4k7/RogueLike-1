@@ -2,6 +2,8 @@ Jason:
  - Create class structure
  - GameObject structure
  - Components and developer functionality
+
+Fritz:
  - Player and obstacles
 
 Paul:
