@@ -14,19 +14,6 @@ public class InputHandler implements KeyListener {
 	@Override
 	public void keyPressed(KeyEvent arg0) {
 		int code = arg0.getKeyCode();
-		if (code == KeyEvent.VK_P) {
-			game.pause();
-		} else if (code == KeyEvent.VK_LEFT) {
-			game.getCursor().moveLeft();
-		} else if (code == KeyEvent.VK_RIGHT) {
-			game.getCursor().moveRight();
-		} else if (code == KeyEvent.VK_UP) {
-			game.getCursor().moveUp();
-		} else if (code == KeyEvent.VK_DOWN) {
-			game.getCursor().moveDown();
-		} else if (code == KeyEvent.VK_SPACE) {
-			game.toggleTile(game.getCursor().getX(), game.getCursor().getY());
-		}
 	}
 
 	@Override

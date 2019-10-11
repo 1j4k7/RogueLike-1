@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public abstract class GameObject {
 	
 	private ArrayList<Component> components;
-	private int x,y;
+	protected int posX,posY;
 	
 	public void graphics() {
 		for (Component component: components) {
@@ -23,8 +23,15 @@ public abstract class GameObject {
 		components.add(component);
 	}
 	
-	public void removeComponent(Component component) {
-		components.remove(component);
+	public void removeComponent(Class<Component> type) {
+		components.removeIf(comp -> (comp.getClass() == type));
 	}
 
+	public Component getComponent(Class<Component> type) {
+		for (Component comp: components) {
+			if (comp.getClass() == type)
+				return comp;
+		}
+		return null;
+	}
 }

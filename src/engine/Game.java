@@ -9,6 +9,7 @@ public class Game {
 	private int height;
 	public MyGrid grid;
 	public ArrayList<GameObject> gameObjects;
+	//Add a player GameObject
 //	private InputHandler input;
 	private GraphicsThread graphics;
 	private LogicThread logic;
@@ -30,11 +31,29 @@ public class Game {
 	}
 	
 	private void setInitialGridComponents() {
+		
+		//Set all tiles to white initially
 		for (int i = 0; i < height; i++) {
 			for (int j = 0; j < width; j++) {
 				grid.setColor(i, j, Color.WHITE);
 			}
 		}
+		
+		//Create and add the player GameObject
+//		player = new Player();
+//		Add Component here------------------------
+		
+		
+		
+		
+//		---------------------------
+//		gameObjects.add(player);
+		
+		//Create and add the adversary GameObject
+		
+		//Create and add the obstacles
+		
+		
 	}
 
 }
@@ -71,6 +90,11 @@ class LogicThread extends Thread {
 		while (true) {
 			for (GameObject obj: game.gameObjects) {
 				obj.logic();
+			}
+			try {
+				Thread.sleep(100);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
 			}
 		}
 	}
