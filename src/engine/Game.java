@@ -1,5 +1,13 @@
 package engine;
 
+/*
+ * Who did what
+ * 
+ * Jason Kuo: Run.java, GameObject.java, Game.java, InputHandler.java
+ * Fritz Wiltman: Player.java, PlayerComponent.java, Obstacle.java, ObstacleComponent.java
+ * Paul Hendriksen: Adversary.java, AdversaryPath.java, Bullet.java, BulletMovement.java
+ */
+
 import java.awt.Color;
 import java.util.ArrayList;
 
@@ -10,6 +18,7 @@ public class Game {
 	public MyGrid grid;
 	public ArrayList<GameObject> gameObjects;
 	public Player player;
+	public Adversary adversary;
 //	private InputHandler input;
 	private GraphicsThread graphics;
 	private LogicThread logic;
@@ -44,6 +53,7 @@ public class Game {
 		//Create and add the player GameObject
 		player = new Player(grid);
 		player.addComponent(new PlayerComponent(player, grid));
+		player.addComponent(new Collider(player));
 //		Add Component here------------------------
 		
 		
@@ -53,11 +63,16 @@ public class Game {
 		gameObjects.add(player);
 		
 		//Create and add the adversary GameObject
+		adversary = new Adversary(width, height, grid);
+//		adversary.addComponent(new AdversaryPath(adversary, grid));
+		adversary.addComponent(new Collider(adversary));
+		gameObjects.add(adversary);
 		
 		//Create and add the obstacles
 		for (int i = 0; i < (int)(0.1f*height*width); i++) {
 			Obstacle temp = new Obstacle((int)(width*Math.random()),(int)(height*Math.random()));
 			temp.addComponent(new ObstacleComponent(temp,grid));
+			temp.addComponent(new Collider(temp));
 			gameObjects.add(temp);
 		}
 		
