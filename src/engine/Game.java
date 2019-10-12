@@ -1,5 +1,4 @@
 package engine;
-
 /*
  * Who did what
  * 
@@ -13,13 +12,12 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.PriorityQueue;
 
-import com.sun.xml.internal.bind.v2.runtime.unmarshaller.XsiNilLoader.Array;
-
 public class Game {
 	
 	private int width;
 	private int height;
 	public MyGrid grid;
+	public boolean[][] hasBlock;
 	public ArrayList<GameObject> gameObjects;
 	public Player player;
 	public Adversary adversary;
@@ -36,6 +34,7 @@ public class Game {
 		this.input = new InputHandler(this);
 		grid.addKeyListener(input);
 		this.keyPresses = new LinkedList<Integer>();
+		hasBlock = new boolean[grid.getHt()][grid.getWd()];
 		grid.setFocusable(true);
 		logic = new LogicThread(this);
 		graphics = new GraphicsThread(this);
@@ -52,10 +51,11 @@ public class Game {
 		//Set all tiles to white initially
 		for (int i = 0; i < height; i++) {
 			for (int j = 0; j < width; j++) {
-//				grid.setColor(i, j, Color.WHITE);
 				Tile temp = new Tile(j,i);
 				temp.addComponent(new TileComponent(temp, grid));
 				gameObjects.add(temp);
+				hasBlock[i][j] = false;
+
 			}
 		}
 		
@@ -70,20 +70,25 @@ public class Game {
 		
 //		---------------------------
 		gameObjects.add(player);
-		
-		//Create and add the adversary GameObject
-		adversary = new Adversary(width, height, grid);
-//		adversary.addComponent(new AdversaryPath(adversary, grid));
-		adversary.addComponent(new Collider(adversary));
-		gameObjects.add(adversary);
-		
+
 		//Create and add the obstacles
 		for (int i = 0; i < (int)(0.1f*height*width); i++) {
-			Obstacle temp = new Obstacle((int)(width*Math.random()),(int)(height*Math.random()));
+			int y = (int)(height*Math.random()),
+				x = (int)(width*Math.random());
+			System.out.println("x is " + x + "and y is " + y);
+			Obstacle temp = new Obstacle(x, y);
 			temp.addComponent(new ObstacleComponent(temp,grid));
 			temp.addComponent(new Collider(temp));
 			gameObjects.add(temp);
+			hasBlock[y][x] = true;
 		}
+		
+		
+		//Create and add the adversary GameObject
+		adversary = new Adversary(width, height, grid);
+		adversary.addComponent(new AdversaryPath(adversary, grid, hasBlock));
+		adversary.addComponent(new Collider(adversary));
+		gameObjects.add(adversary);
 		
 	}
 
@@ -133,7 +138,7 @@ class LogicThread extends Thread {
 				obj.logic();
 			}
 			try {
-				Thread.sleep(100);
+				Thread.sleep(500);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
