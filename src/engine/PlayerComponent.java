@@ -21,10 +21,6 @@ public class PlayerComponent extends Component {
 	
 	public void graphics() {
 		// Make a red square, move if player moves (?)
-		thisGrid.setColor(player.posY, player.posX, Color.RED);
-	}
-	
-	public void logic() {
 		if (!keyPresses.isEmpty()) {
 			int code = keyPresses.pollFirst();
 			if (code == KeyEvent.VK_W) {
@@ -37,6 +33,22 @@ public class PlayerComponent extends Component {
 				player.posX++;
 			}
 		}
+		thisGrid.setColor(player.posY, player.posX, Color.RED);
+	}
+	
+	public void logic() {
+//		if (!keyPresses.isEmpty()) {
+//			int code = keyPresses.pollFirst();
+//			if (code == KeyEvent.VK_W) {
+//				player.posY--;
+//			} else if (code == KeyEvent.VK_A) {
+//				player.posX--;
+//			} else if (code == KeyEvent.VK_S) {
+//				player.posY++;
+//			} else if (code == KeyEvent.VK_D) {
+//				player.posX++;
+//			}
+//		}
 		
 		// Can shoot
 			// Create bullet (in constructor for bullet, have initial direction that is passed in), 
