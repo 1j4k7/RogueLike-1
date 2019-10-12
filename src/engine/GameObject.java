@@ -2,10 +2,11 @@ package engine;
 
 import java.util.ArrayList;
 
-public abstract class GameObject {
+public abstract class GameObject implements Comparable<GameObject> {
 	
 	protected ArrayList<Component> components;
 	protected int posX,posY;
+	protected int priority;
 	
 	public void graphics() {
 		for (Component component: components) {
@@ -17,6 +18,10 @@ public abstract class GameObject {
 		for (Component component: components) {
 			component.logic();
 		}
+	}
+	
+	public int compareTo(GameObject o) {
+		return Integer.compare(this.priority, o.priority);
 	}
 	
 	public void addComponent(Component component) {

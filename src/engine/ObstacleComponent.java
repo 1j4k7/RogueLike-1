@@ -11,6 +11,8 @@ public class ObstacleComponent extends Component {
 		super(obstacle);
 		this.obstacle = obstacle;
 		thisGrid = grid;
+		this.Priority = 1;
+		obstacle.priority = Math.max(this.Priority, obstacle.priority);
 	}
 
 	public void graphics() {
