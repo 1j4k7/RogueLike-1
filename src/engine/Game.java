@@ -9,7 +9,7 @@ public class Game {
 	private int height;
 	public MyGrid grid;
 	public ArrayList<GameObject> gameObjects;
-	//Add a player GameObject
+	public Player player;
 //	private InputHandler input;
 	private GraphicsThread graphics;
 	private LogicThread logic;
@@ -22,6 +22,8 @@ public class Game {
 //		this.input = new InputHandler(this);
 //		grid.addKeyListener(input);
 		grid.setFocusable(true);
+		logic = new LogicThread(this);
+		graphics = new GraphicsThread(this);
 		setInitialGridComponents();
 	}
 	
@@ -40,19 +42,24 @@ public class Game {
 		}
 		
 		//Create and add the player GameObject
-//		player = new Player();
+		player = new Player(grid);
+		player.addComponent(new PlayerComponent(player, grid));
 //		Add Component here------------------------
 		
 		
 		
 		
 //		---------------------------
-//		gameObjects.add(player);
+		gameObjects.add(player);
 		
 		//Create and add the adversary GameObject
 		
 		//Create and add the obstacles
-		
+		for (int i = 0; i < (int)(0.1f*height*width); i++) {
+			Obstacle temp = new Obstacle((int)(width*Math.random()),(int)(height*Math.random()));
+			temp.addComponent(new ObstacleComponent(temp,grid));
+			gameObjects.add(temp);
+		}
 		
 	}
 

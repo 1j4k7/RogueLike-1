@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public abstract class GameObject {
 	
-	private ArrayList<Component> components;
+	protected ArrayList<Component> components;
 	protected int posX,posY;
 	
 	public void graphics() {

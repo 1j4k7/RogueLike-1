@@ -15,7 +15,7 @@ public class PlayerComponent extends Component {
 	
 	public void graphics() {
 		// Make a red square, move if player moves (?)
-		thisGrid.setColor(player.x, player.y, Color.RED);
+		thisGrid.setColor(player.posY, player.posX, Color.RED);
 	}
 	
 	public void logic() {

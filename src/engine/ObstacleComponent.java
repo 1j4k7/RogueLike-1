@@ -9,12 +9,13 @@ public class ObstacleComponent extends Component {
 	
 	public ObstacleComponent(GameObject obstacle, MyGrid grid) {
 		super(obstacle);
+		this.obstacle = obstacle;
 		thisGrid = grid;
 	}
 
 	public void graphics() {
 		// Set the x,y coordinate of obstacle to green
-		thisGrid.setColor(obstacle.x, obstacle.y, Color.GREEN);
+		thisGrid.setColor(obstacle.posY, obstacle.posX, Color.GREEN);
 	}
 	
 	public void logic() {

@@ -1,12 +1,17 @@
 package engine;
 
+import java.util.ArrayList;
+
 public class Player extends GameObject {
 	
-	int posX, posY;
+//	int posX, posY;
+	MyGrid thisGrid;
 	
 	// Starting Player in bottom left position
-	public Player() {
-		this.x = 0;
-		this.y = MyGrid.HEIGHT-1;
+	public Player(MyGrid grid) {
+		this.components = new ArrayList<Component>();
+		this.thisGrid = grid;
+		this.posX = 0;
+		this.posY = thisGrid.getScale()-1;
 	}
 }
