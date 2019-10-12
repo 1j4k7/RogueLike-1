@@ -3,7 +3,7 @@ package engine;
 /*
  * Who did what
  * 
- * Jason Kuo: Run.java, GameObject.java, Game.java, InputHandler.java
+ * Jason Kuo: Run.java, GameObject.java, Game.java, InputHandler.java, Collider.java
  * Fritz Wiltman: Player.java, PlayerComponent.java, Obstacle.java, ObstacleComponent.java
  * Paul Hendriksen: Adversary.java, AdversaryPath.java, Bullet.java, BulletMovement.java
  */
