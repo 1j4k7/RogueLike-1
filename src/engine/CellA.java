@@ -1,4 +1,3 @@
-package engine;
 
 public class CellA {
 	private int x, 

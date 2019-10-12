@@ -1,4 +1,3 @@
-package engine;
 
 /*
  * Who did what
@@ -16,6 +15,7 @@ public class Game {
 	private int width;
 	private int height;
 	public MyGrid grid;
+	public boolean[][] hasBlock;
 	public ArrayList<GameObject> gameObjects;
 	public Player player;
 	public Adversary adversary;
@@ -30,6 +30,7 @@ public class Game {
 		this.gameObjects = new ArrayList<GameObject>();
 //		this.input = new InputHandler(this);
 //		grid.addKeyListener(input);
+		hasBlock = new boolean[grid.getHt()][grid.getWd()];
 		grid.setFocusable(true);
 		logic = new LogicThread(this);
 		graphics = new GraphicsThread(this);
@@ -47,6 +48,7 @@ public class Game {
 		for (int i = 0; i < height; i++) {
 			for (int j = 0; j < width; j++) {
 				grid.setColor(i, j, Color.WHITE);
+				hasBlock[i][j] = false;
 			}
 		}
 		
@@ -62,19 +64,24 @@ public class Game {
 //		---------------------------
 		gameObjects.add(player);
 		
-		//Create and add the adversary GameObject
-		adversary = new Adversary(width, height, grid);
-		adversary.addComponent(new AdversaryPath(adversary, grid));
-		adversary.addComponent(new Collider(adversary));
-		gameObjects.add(adversary);
-		
 		//Create and add the obstacles
 		for (int i = 0; i < (int)(0.1f*height*width); i++) {
-			Obstacle temp = new Obstacle((int)(width*Math.random()),(int)(height*Math.random()));
+			int y = (int)(height*Math.random()),
+				x = (int)(width*Math.random());
+			System.out.println("x is " + x + "and y is " + y);
+			Obstacle temp = new Obstacle(x, y);
 			temp.addComponent(new ObstacleComponent(temp,grid));
 			temp.addComponent(new Collider(temp));
 			gameObjects.add(temp);
+			hasBlock[y][x] = true;
 		}
+		
+		
+		//Create and add the adversary GameObject
+		adversary = new Adversary(width, height, grid);
+		adversary.addComponent(new AdversaryPath(adversary, grid, hasBlock));
+		adversary.addComponent(new Collider(adversary));
+		gameObjects.add(adversary);
 		
 	}
 
