@@ -1,4 +1,4 @@
-package GridTools;
+package engine;
 
 import java.awt.Color;
 import java.util.ArrayList;
