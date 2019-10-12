@@ -64,7 +64,7 @@ public class Game {
 		
 		//Create and add the adversary GameObject
 		adversary = new Adversary(width, height, grid);
-//		adversary.addComponent(new AdversaryPath(adversary, grid));
+		adversary.addComponent(new AdversaryPath(adversary, grid));
 		adversary.addComponent(new Collider(adversary));
 		gameObjects.add(adversary);
 		
