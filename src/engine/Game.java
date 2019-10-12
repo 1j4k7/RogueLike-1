@@ -8,8 +8,12 @@ package engine;
  * Paul Hendriksen: Adversary.java, AdversaryPath.java, Bullet.java, BulletMovement.java
  */
 
-import java.awt.Color;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.PriorityQueue;
+
+import com.sun.xml.internal.bind.v2.runtime.unmarshaller.XsiNilLoader.Array;
 
 public class Game {
 	
@@ -19,7 +23,8 @@ public class Game {
 	public ArrayList<GameObject> gameObjects;
 	public Player player;
 	public Adversary adversary;
-//	private InputHandler input;
+	private InputHandler input;
+	public LinkedList<Integer> keyPresses;
 	private GraphicsThread graphics;
 	private LogicThread logic;
 	
@@ -28,8 +33,9 @@ public class Game {
 		this.height = height;
 		this.grid = new MyGrid(height);
 		this.gameObjects = new ArrayList<GameObject>();
-//		this.input = new InputHandler(this);
-//		grid.addKeyListener(input);
+		this.input = new InputHandler(this);
+		grid.addKeyListener(input);
+		this.keyPresses = new LinkedList<Integer>();
 		grid.setFocusable(true);
 		logic = new LogicThread(this);
 		graphics = new GraphicsThread(this);
@@ -46,13 +52,16 @@ public class Game {
 		//Set all tiles to white initially
 		for (int i = 0; i < height; i++) {
 			for (int j = 0; j < width; j++) {
-				grid.setColor(i, j, Color.WHITE);
+//				grid.setColor(i, j, Color.WHITE);
+				Tile temp = new Tile(j,i);
+				temp.addComponent(new TileComponent(temp, grid));
+				gameObjects.add(temp);
 			}
 		}
 		
 		//Create and add the player GameObject
 		player = new Player(grid);
-		player.addComponent(new PlayerComponent(player, grid));
+		player.addComponent(new PlayerComponent(player, grid, keyPresses));
 		player.addComponent(new Collider(player));
 //		Add Component here------------------------
 		
@@ -64,7 +73,7 @@ public class Game {
 		
 		//Create and add the adversary GameObject
 		adversary = new Adversary(width, height, grid);
-		adversary.addComponent(new AdversaryPath(adversary, grid));
+//		adversary.addComponent(new AdversaryPath(adversary, grid));
 		adversary.addComponent(new Collider(adversary));
 		gameObjects.add(adversary);
 		
@@ -91,10 +100,20 @@ class GraphicsThread extends Thread {
 	
 	public void run() {
 		while (true) {
+			ArrayList<GameObject> temp = new ArrayList<GameObject>();
 			for (GameObject obj: game.gameObjects) {
+				temp.add(obj);
+			}
+			temp.sort(null);
+			for (GameObject obj: temp) {
 				obj.graphics();
 			}
 			game.grid.repaint();
+			try {
+				Thread.sleep(5);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 }

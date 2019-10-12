@@ -14,6 +14,7 @@ public class InputHandler implements KeyListener {
 	@Override
 	public void keyPressed(KeyEvent arg0) {
 		int code = arg0.getKeyCode();
+		game.keyPresses.addLast(code);
 	}
 
 	@Override
