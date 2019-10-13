@@ -12,13 +12,14 @@ public class Collider extends Component {
 		colliders.add(this);
 	}
 	
-	public GameObject isCollision(int x, int y) {
+	public static ArrayList<GameObject> collidesWith(int x, int y) {
+		ArrayList<GameObject> collisions = new ArrayList<GameObject>();
 		for (Collider collider: colliders) {
 			if (collider.parent.posX == x && collider.parent.posY == y) {
-				return collider.parent;
+				collisions.add(collider.parent);
 			}
 		}
-		return null;
+		return collisions;
 	}
 
 }

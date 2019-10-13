@@ -10,7 +10,6 @@ package engine;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
-import java.util.PriorityQueue;
 
 public class Game {
 	
@@ -61,7 +60,7 @@ public class Game {
 		
 		//Create and add the player GameObject
 		player = new Player(grid);
-		player.addComponent(new PlayerComponent(player, grid, keyPresses));
+		player.addComponent(new PlayerComponent(player, grid, keyPresses, this));
 		player.addComponent(new Collider(player));
 //		Add Component here------------------------
 		
@@ -86,7 +85,7 @@ public class Game {
 		
 		//Create and add the adversary GameObject
 		adversary = new Adversary(width, height, grid);
-		adversary.addComponent(new AdversaryPath(adversary, grid, hasBlock));
+//		adversary.addComponent(new AdversaryPath(adversary, grid, hasBlock));
 		adversary.addComponent(new Collider(adversary));
 		gameObjects.add(adversary);
 		
@@ -138,7 +137,7 @@ class LogicThread extends Thread {
 				obj.logic();
 			}
 			try {
-				Thread.sleep(500);
+				Thread.sleep(750);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
