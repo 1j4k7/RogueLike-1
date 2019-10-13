@@ -1,4 +1,3 @@
-package engine;
 
 import java.awt.Color;
 import java.util.ArrayList;
@@ -21,6 +20,7 @@ public class AdversaryPath extends Component{
 		this.grid = grid;
 		blocked = hasBlocked;
 		this.board = new CellA[grid.getHt()][grid.getWd()];
+		initialize();
 	}
 	
 	public void graphics() {
@@ -54,13 +54,31 @@ public class AdversaryPath extends Component{
 		parent.posX = endX;
 	}
 	
+	public void moveAdversary() {
+		int[] tuple = stack.pop();
+		grid.setColor(parent.posY, parent.posX, Color.WHITE);
+		grid.setColor(tuple[1], tuple[0], Color.gray);
+		parent.posY = tuple[1];
+		parent.posX = tuple[0];
+	}
+	
 	public void logic() {
-		Random ran = new Random();
-		endX = ran.nextInt(79);
-		endY = ran.nextInt(39);
-		initialize();
-		aStar(parent.posY, parent.posX, endY, endX);
-		graphicHelper();
+		if (stack.isEmpty()) {
+			Random ran = new Random();
+			endX = ran.nextInt(grid.getWd() - 1);
+			endY = ran.nextInt(grid.getHt() - 1);
+			
+			//need to make sure we dont go to a path that has an obstruction
+			while (blocked[endY][endX]) {
+				endX = ran.nextInt(grid.getWd() - 1);
+				endY = ran.nextInt(grid.getHt() - 1);
+			}
+			
+			System.out.println("endX is " + endX + " and endy is " + endY);
+			aStar(parent.posY, parent.posX, endY, endX);
+			getPath(parent.posY, parent.posX, endY, endX);
+		} 
+		moveAdversary();
 	}
 	
 	public void aStar(int startY, int startX, int endY, int endX) {
