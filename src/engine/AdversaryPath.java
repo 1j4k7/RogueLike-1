@@ -1,3 +1,4 @@
+package engine;
 
 import java.awt.Color;
 import java.util.ArrayList;
@@ -5,7 +6,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.Stack;
 
-public class AdversaryPath extends Component{
+public class AdversaryPath extends Component {
 
 	private MyGrid grid; 
 	private CellA[][] board;

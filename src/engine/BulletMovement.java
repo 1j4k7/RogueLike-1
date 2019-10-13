@@ -21,32 +21,49 @@ public class BulletMovement extends Component{
 	}
 	
 	public void logic() {
+		int tempX = parent.posX;
+		int tempY = parent.posY;
 		if (lastDirection == 1) {
 			parent.posY--;
-		} else if (lastDirection == 2) {
-			parent.posX++;
+			tempY = parent.posY;
 			parent.posY--;
+//		} else if (lastDirection == 2) {
+//			parent.posX++;
+//			parent.posY--;
 		} else if (lastDirection == 3) {
 			parent.posX++;
-		} else if (lastDirection == 4) {
+			tempX = parent.posX;
 			parent.posX++;
-			parent.posY++;
+//		} else if (lastDirection == 4) {
+//			parent.posX++;
+//			parent.posY++;
 		} else if (lastDirection == 5) {
 			parent.posY++;
-		} else if (lastDirection == 6) {
+			tempY = parent.posY;
 			parent.posY++;
-			parent.posX--;
+//		} else if (lastDirection == 6) {
+//			parent.posY++;
+//			parent.posX--;
 		} else if (lastDirection == 7) {
 			parent.posX--;
-		} else {
+			tempX = parent.posX;
 			parent.posX--;
-			parent.posY--;
+//		} else {
+//			parent.posX--;
+//			parent.posY--;
 		}
 		if (outOfBounds()) {
 			destroyBullet();
 			return;
 		}
-		ArrayList<GameObject> collisions = Collider.collidesWith(parent.posX, parent.posY);
+		ArrayList<GameObject> collisions = Collider.collidesWith(tempX, tempY);
+		for (GameObject obj: collisions) {
+			if (obj instanceof Obstacle) {
+				destroyBullet();
+				return;
+			}
+		}
+		collisions = Collider.collidesWith(parent.posX, parent.posY);
 		for (GameObject obj: collisions) {
 			if (obj instanceof Obstacle) {
 				destroyBullet();

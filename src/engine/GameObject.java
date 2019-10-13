@@ -28,11 +28,11 @@ public abstract class GameObject implements Comparable<GameObject> {
 		components.add(component);
 	}
 	
-	public void removeComponent(Class<Component> type) {
+	public void removeComponent(Class type) {
 		components.removeIf(comp -> (comp.getClass() == type));
 	}
 
-	public Component getComponent(Class<Component> type) {
+	public Component getComponent(Class type) {
 		for (Component comp: components) {
 			if (comp.getClass() == type)
 				return comp;
