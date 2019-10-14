@@ -1,4 +1,3 @@
-package engine;
 
 import java.awt.Color;
 import java.util.ArrayList;
@@ -10,8 +9,10 @@ public class AdversaryPath extends Component {
 
 	private MyGrid grid; 
 	private CellA[][] board;
-	private int width, height, endX, endY;
+	private boolean needPath = true;
+	private int width, height, endX, endY, oldX, oldY;
 	private boolean[][] blocked;
+	int counter = 0;
 	private Stack<int[]> stack = new Stack<int[]>(); 
 	private List<CellA> open = new ArrayList<CellA>();
 	private List<CellA> closed = new ArrayList<CellA>();
@@ -21,53 +22,38 @@ public class AdversaryPath extends Component {
 		this.grid = grid;
 		blocked = hasBlocked;
 		this.board = new CellA[grid.getHt()][grid.getWd()];
-		initialize();
 	}
 	
 	public void graphics() {
+		grid.setColor(oldY, oldX, Color.WHITE);
+		grid.setColor(parent.posY, parent.posX, Color.gray);
 	}
-	
-	public void graphicHelper() {
-		getPath(parent.posY, parent.posX, endY, endX);
-		int[] tuple = {parent.posX, parent.posY};
 		
-		while (!stack.isEmpty()) {
-			grid.setColor(tuple[1], tuple[0], Color.WHITE);
-			
-			tuple = stack.pop();
-			grid.setColor(tuple[1], tuple[0], Color.gray);
-			
+	public void moveAdversary() {
+		if (stack.isEmpty()) {
+			parent.posX = endX;
+			parent.posY = endY;
+			needPath = true;
+			open = new ArrayList<>();
+			closed = new ArrayList<>();
+		} else {
+			int[] tuple = stack.pop();
+			oldX = parent.posX;
+			oldY = parent.posY;
 			parent.posY = tuple[1];
 			parent.posX = tuple[0];
-			try {
-				Thread.sleep(100);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-		
-		//make sure that we have set the final spot to grey and updated the posx and posy
-		grid.setColor(tuple[1], tuple[0], Color.WHITE);
-		grid.setColor(endY, endX, Color.gray);
-		
-		parent.posY = endY;
-		parent.posX = endX;
-	}
-	
-	public void moveAdversary() {
-		int[] tuple = stack.pop();
-		grid.setColor(parent.posY, parent.posX, Color.WHITE);
-		grid.setColor(tuple[1], tuple[0], Color.gray);
-		parent.posY = tuple[1];
-		parent.posX = tuple[0];
+		}		
 	}
 	
 	public void logic() {
-		if (stack.isEmpty()) {
+		if (needPath) {
+			counter++;
+			if (counter > 1)
+				System.out.println();
+			needPath = false;
 			Random ran = new Random();
-			endX = ran.nextInt(grid.getWd() - 1);
-			endY = ran.nextInt(grid.getHt() - 1);
+			endX = ran.nextInt(79);
+			endY = ran.nextInt(39);
 			
 			//need to make sure we dont go to a path that has an obstruction
 			while (blocked[endY][endX]) {
@@ -83,6 +69,7 @@ public class AdversaryPath extends Component {
 	}
 	
 	public void aStar(int startY, int startX, int endY, int endX) {
+		initialize();
 		setWeights(endX, endY, startX, startY);
 		open.add(board[startY][startX]);
 		
@@ -118,8 +105,8 @@ public class AdversaryPath extends Component {
 	
 	//loops through and calculates the distance from the given cell to the end cell
 	public void setWeights(int destX, int destY, int sourceX, int sourceY) {
-		for (int i = 0; i < height; i++) {
-			for (int j = 0; j < width; j++) {
+		for (int i = 0; i < grid.getHt(); i++) {
+			for (int j = 0; j < grid.getWd(); j++) {
 				board[i][j].setDistFromDest(destX, destY);
 			}
 		}
