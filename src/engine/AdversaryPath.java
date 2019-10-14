@@ -25,35 +25,36 @@ public class AdversaryPath extends Component {
 	}
 	
 	public void graphics() {
+		grid.setColor(parent.posY, parent.posX, Color.DARK_GRAY);
 	}
 	
-	public void graphicHelper() {
-		getPath(parent.posY, parent.posX, endY, endX);
-		int[] tuple = {parent.posX, parent.posY};
-		
-		while (!stack.isEmpty()) {
-			grid.setColor(tuple[1], tuple[0], Color.WHITE);
-			
-			tuple = stack.pop();
-			grid.setColor(tuple[1], tuple[0], Color.gray);
-			
-			parent.posY = tuple[1];
-			parent.posX = tuple[0];
-			try {
-				Thread.sleep(100);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-		
-		//make sure that we have set the final spot to grey and updated the posx and posy
-		grid.setColor(tuple[1], tuple[0], Color.WHITE);
-		grid.setColor(endY, endX, Color.gray);
-		
-		parent.posY = endY;
-		parent.posX = endX;
-	}
+//	public void graphicHelper() {
+//		getPath(parent.posY, parent.posX, endY, endX);
+//		int[] tuple = {parent.posX, parent.posY};
+//		
+//		while (!stack.isEmpty()) {
+//			grid.setColor(tuple[1], tuple[0], Color.WHITE);
+//			
+//			tuple = stack.pop();
+//			grid.setColor(tuple[1], tuple[0], Color.gray);
+//			
+//			parent.posY = tuple[1];
+//			parent.posX = tuple[0];
+//			try {
+//				Thread.sleep(100);
+//			} catch (InterruptedException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
+//		}
+//		
+//		//make sure that we have set the final spot to grey and updated the posx and posy
+//		grid.setColor(tuple[1], tuple[0], Color.WHITE);
+//		grid.setColor(endY, endX, Color.gray);
+//		
+//		parent.posY = endY;
+//		parent.posX = endX;
+//	}
 	
 	public void moveAdversary() {
 		int[] tuple = stack.pop();
