@@ -52,8 +52,15 @@ public class PlayerComponent extends Component {
 				bullet.addComponent(new Collider(bullet));
 				gameObjects.add(bullet);
 				game.gameObjects = gameObjects;
+			} else if (code == KeyEvent.VK_H) {
+				keyPresses.addFirst(code);
 			}
 			ArrayList<GameObject> collisions = Collider.collidesWith(player.posX, player.posY);
+			if (outOfBounds()) {
+				player.posX = oldPosX;
+				player.posY = oldPosY;
+				return;
+			}
 			for (GameObject obj: collisions) {
 				if (obj instanceof Obstacle) {
 					player.posX = oldPosX;
@@ -62,6 +69,10 @@ public class PlayerComponent extends Component {
 				}
 			}
 		}
+	}
+	
+	public boolean outOfBounds() {
+		return (parent.posX < 0 || parent.posY < 0 || parent.posX >= thisGrid.getWd() || parent.posY >= thisGrid.getHt());
 	}
 	
 }

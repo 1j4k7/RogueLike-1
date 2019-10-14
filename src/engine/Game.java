@@ -69,13 +69,14 @@ public class Game {
 		
 //		---------------------------
 		gameObjects.add(player);
-		player.removeComponent(Collider.class);
 
 		//Create and add the obstacles
 		for (int i = 0; i < (int)(0.1f*height*width); i++) {
 			int y = (int)(height*Math.random()),
 				x = (int)(width*Math.random());
-//			System.out.println("x is " + x + "and y is " + y);
+			if ((y == 0 && x == width - 1) || (y == height - 1 && x == 0)) {
+				continue;
+			}
 			Obstacle temp = new Obstacle(x, y);
 			temp.addComponent(new ObstacleComponent(temp,grid));
 			temp.addComponent(new Collider(temp));
@@ -85,8 +86,8 @@ public class Game {
 		
 		
 		//Create and add the adversary GameObject
-		adversary = new Adversary(width, height, grid);
-		adversary.addComponent(new AdversaryPath(adversary, grid, hasBlock));
+		adversary = new Adversary(width, height, grid, gameObjects);
+		adversary.addComponent(new AdversaryPath(adversary, grid, hasBlock, keyPresses));
 		adversary.addComponent(new Collider(adversary));
 		gameObjects.add(adversary);
 		
@@ -138,7 +139,7 @@ class LogicThread extends Thread {
 				obj.logic();
 			}
 			try {
-				Thread.sleep(150);
+				Thread.sleep(100);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
